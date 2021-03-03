@@ -20,19 +20,27 @@ code {
 
 }
 
-
 .container .card-container li {
   display: flex;
   width: 200px;
   height: 200px;
   margin:10px 5px 10px 5px;
   box-sizing: border-box;
+  position: relative;
  
 }
 .container .card-container li img{
   width: 100%;
   height: 100%;
+  position: absolute;
+  z-index: -1;
+  border: 2px solid blue ;
+  border-radius: 10px;
+  
 }
+
+
+
 
 li{
   list-style: none;

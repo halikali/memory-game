@@ -40,7 +40,7 @@ export default class Memory extends Component {
             
             
         }
-        this.shuffle(this.state.cards)
+        this.shuffle(this.state.cards);
     }
 
      shuffle = (array) => {
@@ -49,23 +49,28 @@ export default class Memory extends Component {
         });
       }
 
-
+     
  
     onClickHandler = (event) => {
-         this.setState({selectByUser: [...this.state.selectByUser , event.target.src ] });
+         //this.setState({selectByUser: [...this.state.selectByUser , event.target.src ] });
+            let {selectByUser} = this.state;
+            selectByUser.push(event.target.firstChild.src);
 
-        console.log(this.state.selectByUser);
+        
         this.isMatched() ;
-    
+        
+       
     }
     
     isMatched = () => {
         let selectOne = this.state.selectByUser[0];
         let selectTwo = this.state.selectByUser[1];
         
-        (this.state.selectByUser.length === 2 ) ? ( selectOne === selectTwo ? console.log("Başarılı") : console.log("Başarısız")) :  ( console.log("uzunluk 2 değil "));
-        while(this.state.selectByUser.length > 2){
-            this.setState({selectByUser : [ ] })
+        (this.state.selectByUser.length === 2 ) ? ( selectOne === selectTwo ? console.log("2. seçim Başarılı") : console.log(" 2. seçim Başarısız")) :  ( console.log(" 1. seçim "));
+        
+        if(this.state.selectByUser.length === 2){
+            this.setState({selectByUser : []}) ; 
+
         }
     }
 
@@ -77,7 +82,10 @@ export default class Memory extends Component {
             <div className="container">
                 <div className="card-container">
                 {this.state.cards.map(element => (
-                    <li key={element.id} onClick={ this.onClickHandler}><img src={element.source} className="image" alt={element.id}></img></li>
+                    <li key={element.id} onClick={ this.onClickHandler} >
+                        <img src={element.source} className="image hidden" alt={element.id} >
+                        </img>
+                    </li>
                 ))}
                 </div>
                
