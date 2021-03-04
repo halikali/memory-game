@@ -17,7 +17,56 @@ code {
   width: 640px;
   height: auto;
   margin: auto;
+}
 
+.container .completed{
+  width: 635px;
+  height: 500px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  justify-content: space-evenly;
+  background-color: rgba(240, 108, 108, 0.945);
+  top: -500px;
+  margin-left: auto;
+}
+
+.container .game-buttons{
+  display: flex;
+  margin: auto;
+  /* margin-top: 50%; */
+}
+
+.container .game-buttons .start-game{
+  margin-top: 200%;
+  width: 200px;
+  height: 80px;
+  background-color:#998DA0 ;
+  color: white;
+  text-transform: uppercase;
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-family: 'Oswald', sans-serif;
+  border: none;
+}
+.container .game-buttons .end-game{
+display: flex;
+justify-content: center;
+margin-left: 30%;
+text-align: center;
+line-height: 80px;
+
+}
+.container .game-buttons .start-game:hover{
+  cursor: pointer;
+  background-color: #B9C0DA;
+  color: #998DA0;
+  transition: all .5s ease-in-out;
+  -webkit-box-shadow: 14px 28px 16px -12px rgba(0,0,0,0.65);
+  -moz-box-shadow: 14px 28px 16px -12px rgba(0,0,0,0.65);
+  box-shadow: 14px 28px 16px -12px rgba(0,0,0,0.65);
 }
 
 .container .card-container li {

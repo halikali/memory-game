@@ -37,7 +37,9 @@ export default class Memory extends Component {
                 source : img6}
                   ],
             selectByUser : [],
-            liClassList : []
+            liClassList : [],
+            isStart : false,
+            arrayForComplete : []
             
         }
 
@@ -61,6 +63,7 @@ export default class Memory extends Component {
         
         // let {selectByUser} = this.state;
         // selectByUser.push(event.target.firstChild.src);
+        
         let {liClassList} = this.state;
         liClassList.push(event.target);
        
@@ -71,14 +74,15 @@ export default class Memory extends Component {
     
     isMatched = (event) => {
         
-        
         let selectOne = this.state.selectByUser[0];
         let selectTwo = event.target.firstChild.src;
         
         if(this.state.selectByUser.length === 1){
             
             if(selectOne === selectTwo){
-
+                this.setState({
+                    arrayForComplete : [...this.state.arrayForComplete , selectTwo]
+                })
             }else{
                 this.state.liClassList.map( item => {
                     setTimeout(() => {item.classList.add("closed")} , 500)
@@ -87,23 +91,43 @@ export default class Memory extends Component {
             this.setState({selectByUser : [] , liClassList : []}) ; 
         }
 
+        
+        this.state.arrayForComplete.length === 6 && this.setState({
+            arrayForComplete : []
+        })
+        
     }
 
-
+    startGame = () =>{
+        this.setState({
+            isStart: !this.state.isStart
+        })
+    }
+    
     
 
     render() {
+        let isStart = this.state.isStart;
+        const renderForGame = () => {
+            if (!isStart) {
+              return <div className="game-buttons"> <button onClick={this.startGame} className="start-game">  start Game </button> </div> ;
+            } else {
+              return <div className="card-container">
+              {this.state.cards.map(element => (
+                  <li key={element.id}  onClick={ this.onClickHandler} className="closed" >
+                      <img src={element.source} className="image" alt={element.id} >
+                      </img>
+                  </li>
+              ))}
+               {this.state.arrayForComplete.length === 6 && <div className="completed game-buttons"><p>Tebrikler Tamamladınız </p> <button onClick={this.startGame} className="start-game end-game">  try again </button> </div>}
+              </div>;
+            }
+           
+          }
+
         return (
             <div className="container">
-                <div className="card-container">
-                {this.state.cards.map(element => (
-                    
-                    <li key={element.id}  onClick={ this.onClickHandler} className="closed" >
-                        <img src={element.source} className="image" alt={element.id} >
-                        </img>
-                    </li>
-                ))}
-                </div>
+                {renderForGame()}
             </div>
         )
     }
