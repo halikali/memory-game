@@ -36,10 +36,11 @@ export default class Memory extends Component {
                 {id : 12 , 
                 source : img6}
                   ],
-            selectByUser : []
-            
+            selectByUser : [],
+            liClassList : []
             
         }
+
         this.shuffle(this.state.cards);
     }
 
@@ -51,27 +52,41 @@ export default class Memory extends Component {
 
      
  
-    onClickHandler = (event) => {
-         //this.setState({selectByUser: [...this.state.selectByUser , event.target.src ] });
-            let {selectByUser} = this.state;
-            selectByUser.push(event.target.firstChild.src);
-
+    onClickHandler = (event ) => {
+       this.setState({
+            selectByUser : [...this.state.selectByUser , event.target.firstChild.src ], 
+            
+        })
+         
         
-        this.isMatched() ;
-        
+        // let {selectByUser} = this.state;
+        // selectByUser.push(event.target.firstChild.src);
+        let {liClassList} = this.state;
+        liClassList.push(event.target);
+       
+        event.target.classList.remove("closed");
+        this.isMatched(event) ;
        
     }
     
-    isMatched = () => {
+    isMatched = (event) => {
+        
+        
         let selectOne = this.state.selectByUser[0];
-        let selectTwo = this.state.selectByUser[1];
+        let selectTwo = event.target.firstChild.src;
         
-        (this.state.selectByUser.length === 2 ) ? ( selectOne === selectTwo ? console.log("2. seçim Başarılı") : console.log(" 2. seçim Başarısız")) :  ( console.log(" 1. seçim "));
-        
-        if(this.state.selectByUser.length === 2){
-            this.setState({selectByUser : []}) ; 
+        if(this.state.selectByUser.length === 1){
+            
+            if(selectOne === selectTwo){
 
+            }else{
+                this.state.liClassList.map( item => {
+                    setTimeout(() => {item.classList.add("closed")} , 500)
+                })
+            }
+            this.setState({selectByUser : [] , liClassList : []}) ; 
         }
+
     }
 
 
@@ -82,13 +97,13 @@ export default class Memory extends Component {
             <div className="container">
                 <div className="card-container">
                 {this.state.cards.map(element => (
-                    <li key={element.id} onClick={ this.onClickHandler} >
-                        <img src={element.source} className="image hidden" alt={element.id} >
+                    
+                    <li key={element.id}  onClick={ this.onClickHandler} className="closed" >
+                        <img src={element.source} className="image" alt={element.id} >
                         </img>
                     </li>
                 ))}
                 </div>
-               
             </div>
         )
     }
