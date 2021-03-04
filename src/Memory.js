@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
+import './index.css';
 import img1 from './assets/img1.png' ; 
 import img2 from './assets/img2.png' ; 
 import img3 from './assets/img3.png' ; 
@@ -44,9 +46,14 @@ export default class Memory extends Component {
         }
 
         this.shuffle(this.state.cards);
+        //lodash - shuffle
     }
 
-     shuffle = (array) => {
+    // componentDidUpdate(){
+    //     console.warn('state:', this.state, 'props: ', this.props);
+    // }
+
+    shuffle = (array) => {
         this.setState({
             cards : array.sort(() => Math.random() - Math.random())
         });
@@ -56,8 +63,7 @@ export default class Memory extends Component {
  
     onClickHandler = (event ) => {
        this.setState({
-            selectByUser : [...this.state.selectByUser , event.target.firstChild.src ], 
-            
+            selectByUser : [...this.state.selectByUser , event.target.firstChild.src ],  
         })
          
         
@@ -66,18 +72,20 @@ export default class Memory extends Component {
         
         let {liClassList} = this.state;
         liClassList.push(event.target);
-       
+        
         event.target.classList.remove("closed");
-        this.isMatched(event) ;
-       
+        setTimeout((event) => {
+            this.isMatched(event)
+          },500);
+        
     }
     
     isMatched = (event) => {
         
         let selectOne = this.state.selectByUser[0];
-        let selectTwo = event.target.firstChild.src;
-        
-        if(this.state.selectByUser.length === 1){
+        let selectTwo = this.state.selectByUser[1];
+        console.warn(this.state.selectByUser.length);
+        if(this.state.selectByUser.length === 2){
             
             if(selectOne === selectTwo){
                 this.setState({
@@ -85,50 +93,45 @@ export default class Memory extends Component {
                 })
             }else{
                 this.state.liClassList.map( item => {
-                    setTimeout(() => {item.classList.add("closed")} , 500)
+                    setTimeout(() => {item.classList.add("closed")} , 200)
                 })
             }
             this.setState({selectByUser : [] , liClassList : []}) ; 
         }
-
-        
-        this.state.arrayForComplete.length === 6 && this.setState({
-            arrayForComplete : []
-        })
         
     }
 
     startGame = () =>{
         this.setState({
             isStart: !this.state.isStart
-        })
+        });
+       
     }
     
     
 
     render() {
         let isStart = this.state.isStart;
-        const renderForGame = () => {
-            if (!isStart) {
-              return <div className="game-buttons"> <button onClick={this.startGame} className="start-game">  start Game </button> </div> ;
-            } else {
-              return <div className="card-container">
-              {this.state.cards.map(element => (
-                  <li key={element.id}  onClick={ this.onClickHandler} className="closed" >
-                      <img src={element.source} className="image" alt={element.id} >
-                      </img>
-                  </li>
-              ))}
-               {this.state.arrayForComplete.length === 6 && <div className="completed game-buttons"><p>Tebrikler Tamamladınız </p> <button onClick={this.startGame} className="start-game end-game">  try again </button> </div>}
-              </div>;
-            }
-           
-          }
-
-        return (
-            <div className="container">
-                {renderForGame()}
-            </div>
-        )
+              return (
+                <>
+                    <div className="container">
+                    <div className="card-container">
+                    {this.state.cards.map(element => (
+                        <li key={element.id} onClick={this.onClickHandler} className="closed" >
+                            <img src={element.source} className="image" alt={element.id} >
+                            </img>
+                        </li>
+                    ))}
+                    </div>
+                    {this.state.arrayForComplete.length > 5 && (  <Redirect to="/result" /> 
+                    // <div className="completed game-buttons">
+                    //     <p>Tebrikler Tamamladınız </p>
+                    //     <button onClick={this.startGame} className="start-game end-game">  try again </button> 
+                    // </div>
+                    )}
+                    </div>
+                </>
+              );
+        
     }
 }
