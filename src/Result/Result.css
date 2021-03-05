@@ -33,7 +33,7 @@
     font-size: 100px;
     font-weight: bold;
     text-transform: uppercase;
-    animation: pulse 20s infinite;
+    animation: pulse 8s forwards;
     color: white;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 
@@ -53,6 +53,6 @@
       margin-left: -50%;
     }
     100% {
-      margin-left: 100%;
+      margin-left: 55%;
     }
   }

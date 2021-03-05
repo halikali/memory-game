@@ -53,6 +53,8 @@ export default class Memory extends Component {
     //     console.warn('state:', this.state, 'props: ', this.props);
     // }
 
+    score = 0 ; 
+
     shuffle = (array) => {
         this.setState({
             cards : array.sort(() => Math.random() - Math.random())
@@ -84,7 +86,6 @@ export default class Memory extends Component {
         
         let selectOne = this.state.selectByUser[0];
         let selectTwo = this.state.selectByUser[1];
-        console.warn(this.state.selectByUser.length);
         if(this.state.selectByUser.length === 2){
             
             if(selectOne === selectTwo){
@@ -107,11 +108,11 @@ export default class Memory extends Component {
         });
        
     }
-    
+     
     
 
     render() {
-        let isStart = this.state.isStart;
+       
               return (
                 <>
                     <div className="container">
